@@ -1,17 +1,19 @@
 #include "confirm_page.hpp"
 #include <borealis.hpp>
 #include "utils.hpp"
+#include "reboot_payload.h"
 #include <algorithm>
 
 ConfirmPage::ConfirmPage(brls::StagedAppletFrame* frame, const std::string& text, bool reboot): reboot(reboot)
 {
-    this->button = (new brls::Button(reboot ? brls::ButtonStyle::BORDERLESS: brls::ButtonStyle::PLAIN))->setLabel(reboot ? "Reboot": "Continue");
+    this->button = (new brls::Button(reboot ? brls::ButtonStyle::BORDERLESS: brls::ButtonStyle::PLAIN))->setLabel(reboot ? "Reboot to payload": "Continue");
 
     this->button->setParent(this);
     this->button->getClickEvent()->subscribe([frame, this](View* view) {
         if (!frame->isLastStage())
             frame->nextStage();
         else if (this->reboot) {
+            reboot_to_payload();
             attempt_reboot();
             brls::Application::popView();
         }
@@ -34,7 +36,7 @@ void ConfirmPage::draw(NVGcontext* vg, int x, int y, unsigned width, unsigned he
     if (!this->reboot) {
         auto end = std::chrono::high_resolution_clock::now();
         auto missing = std::max(3l - std::chrono::duration_cast<std::chrono::seconds>(end - start).count(), 0l);
-        auto text =  std::string(this->reboot ? "Reboot": "Continue");
+        auto text =  std::string(this->reboot ? "Reboot to payload": "Continue");
         if (missing > 0) {
             this->button->setLabel(text + " (" + std::to_string(missing) + ")");
             this->button->setState(brls::ButtonState::DISABLED);

@@ -37,5 +37,6 @@ This operation creates a backup in `/switch/linkalho/backups`
   - [natinusala (lib borealis)](https://github.com/natinusala/borealis) for the amazing library that mimicks the Switch's original UI and UX
   - [sebastiandev (zipper wrapper for minizip)](https://github.com/sebastiandev/zipper/) for their nice wrapper to the minizip
   - [Kronos2308](https://github.com/Kronos2308) for the help in the initial phases of research.
+  - [SciresM](https://github.com/SciresM) for his "reboot to payload" code and [HamletDuFromage](https://github.com/HamletDuFromage) for its implementation in Linkalho
   - **stick2target** for the beta testing and for supplying crucial files that helped in the creation of the generators.
   - **boredomisacrime** for the beta testing.
