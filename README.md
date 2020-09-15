@@ -19,7 +19,7 @@ Will link all accounts on the console. If any of the existing accounts is alread
 This operation creates a backup in `/switch/linkalho/backups`
 
 ### Unlink all accounts
-Will remove all NNID linking from any accounts on the console regardless of the NNIDs being oficially linked or not.
+Will remove all NNID linking from any accounts on the console regardless of the NNIDs being officially linked or not.
 This operation creates a backup in `/switch/linkalho/backups`
 
 ### Restore backup
