@@ -1,5 +1,5 @@
-#ifndef __REBBOT_PAYLOAD_H__
-#define __REBBOT_PAYLOAD_H__
+#ifndef __REBOOT_PAYLOAD_H__
+#define __REBOOT_PAYLOAD_H__
 
 #ifdef __cplusplus
 extern "C" {
@@ -16,7 +16,7 @@ enum CFW{
     sxos,
 };
 
-bool is_service_sunning(const char *serviceName);
+bool is_service_running(const char *serviceName);
 
 enum CFW get_CFW();
 

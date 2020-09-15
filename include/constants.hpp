@@ -15,5 +15,8 @@
 #endif
 # define RESTORE_PATH ACCOUNT_PATH
 
+#define AMS_PAYLOAD "sdmc:/atmosphere/reboot_payload.bin"
+#define SXOS_PAYLOAD "sdmc:/boot.dat"
+#define REINX_PAYLOAD "sdmc:/ReiNX.bin"
 
 #endif // __LINKUSER_CONSTANTS_HPP__

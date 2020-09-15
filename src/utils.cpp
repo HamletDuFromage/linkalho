@@ -1,6 +1,5 @@
 #include "utils.hpp"
 
-
 void attempt_reboot(){
 #ifndef DEBUG
     Result rc = bpcInitialize();

@@ -1,4 +1,5 @@
 #include "reboot_payload.h"
+#include "constants.hpp"
 
 #define IRAM_PAYLOAD_MAX_SIZE 0x2F000
 #define IRAM_PAYLOAD_BASE 0x40010000
@@ -25,8 +26,6 @@ enum CFW get_CFW(){
     else if(is_service_running("tx"))     return sxos;
     else                                return ams;
 }
-
-
 void do_iram_dram_copy(void *buf, uintptr_t iram_addr, size_t size, int option) {
     memcpy(g_work_page, buf, size);
     
@@ -70,39 +69,27 @@ int reboot_to_payload(){
     bool can_reboot = true;
     int cfw = get_CFW();
     Result rc = splInitialize();
-    if (R_FAILED(rc)) {
-        printf("Failed to initialize spl: 0x%x\n", rc);
-        can_reboot = false;
-    } else {
+    if (R_FAILED(rc)) can_reboot = false;
+    else {
         FILE *f;
         switch(cfw){
             case ams:
-                f = fopen("sdmc:/atmosphere/reboot_payload.bin", "rb");
+                f = fopen(AMS_PAYLOAD, "rb");
                 break;
             case rnx:
-                f = fopen("sdmc:/ReiNX.bin", "rb");
+                f = fopen(REINX_PAYLOAD, "rb");
                 break;
             case sxos:
-                f = fopen("sdmc:/boot.dat", "rb");
+                f = fopen(SXOS_PAYLOAD, "rb");
                 break;
         }
-        
-        if (f == NULL) {
-            //printf("Failed to open reboot_payload.bin!\n");
-            can_reboot = false;
-        } else {
+        if (f == NULL) can_reboot = false;
+        else {
             fread(g_reboot_payload, 1, sizeof(g_reboot_payload), f);
             fclose(f);
-            //printf("Press [-] to reboot to payload\n");
         }
     }
-    if (can_reboot) {
-        inject_payload();
-    }
-    if (can_reboot) {
-        splExit();
-    }
-    //attempt_reboot(); //if payload failed
+    if (can_reboot) inject_payload();
+    if (can_reboot) splExit();
     return 0;
-
 }
