@@ -1,31 +1,14 @@
 #include "reboot_payload.h"
 #include "constants.hpp"
 
-#define IRAM_PAYLOAD_MAX_SIZE 0x2F000
-#define IRAM_PAYLOAD_BASE 0x40010000
+#define IRAM_PAYLOAD_MAX_SIZE   0x2F000
+#define IRAM_PAYLOAD_BASE       0x40010000
 
 static alignas(0x1000) u8 g_reboot_payload[IRAM_PAYLOAD_MAX_SIZE];
 static alignas(0x1000) u8 g_ff_page[0x1000];
 static alignas(0x1000) u8 g_work_page[0x1000];
 
-bool is_service_running(const char *serviceName) {
-  Handle handle;
-  SmServiceName service_name = smEncodeName(serviceName);
-  bool running = R_FAILED(smRegisterService(&handle, service_name, false, 1));
 
-  svcCloseHandle(handle);
-
-  if (!running)
-    smUnregisterService(service_name);
-
-  return running;
-}
-
-enum CFW get_CFW(){
-    if(is_service_running("rnx"))         return rnx;
-    else if(is_service_running("tx"))     return sxos;
-    else                                return ams;
-}
 void do_iram_dram_copy(void *buf, uintptr_t iram_addr, size_t size, int option) {
     memcpy(g_work_page, buf, size);
     
@@ -73,14 +56,14 @@ int reboot_to_payload(){
     else {
         FILE *f;
         switch(cfw){
-            case ams:
-                f = fopen(AMS_PAYLOAD, "rb");
-                break;
-            case rnx:
+            case 0:
                 f = fopen(REINX_PAYLOAD, "rb");
                 break;
-            case sxos:
+            case 1:
                 f = fopen(SXOS_PAYLOAD, "rb");
+                break;
+            case 2:
+                f = fopen(AMS_PAYLOAD, "rb");
                 break;
         }
         if (f == NULL) can_reboot = false;

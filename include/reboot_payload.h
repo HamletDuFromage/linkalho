@@ -10,16 +10,6 @@ extern "C" {
 #include <stdbool.h>
 #include <switch.h>
 
-enum CFW{
-    ams,
-    rnx,
-    sxos,
-};
-
-bool is_service_running(const char *serviceName);
-
-enum CFW get_CFW();
-
 int reboot_to_payload();
 
 #ifdef __cplusplus
