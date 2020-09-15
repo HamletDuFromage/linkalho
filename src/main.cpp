@@ -45,7 +45,7 @@ int main(int argc, char* argv[])
             })
         );
         stagedFrame->addStage(
-            new ConfirmPage(stagedFrame, "confirm linked", true)
+            new ConfirmPage(stagedFrame, "Accounts linked!", true)
         );
 
         brls::Application::pushView(stagedFrame);
@@ -70,7 +70,7 @@ int main(int argc, char* argv[])
             })
         );
         stagedFrame->addStage(
-            new ConfirmPage(stagedFrame, "confirm unlinked", true)
+            new ConfirmPage(stagedFrame, "Accounts unlinked!", true)
         );
 
         brls::Application::pushView(stagedFrame);
